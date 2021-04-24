@@ -12,7 +12,7 @@ header:
     preload_count (4)
     rel_offset_preload_table (4) -> preload[]
     pack_count (4)
-    rel_offset_xap_info_table (4) -> xap_header_info[]
+    rel_offset_header_table (4) -> file[]
     file_count (4)
     rel_offset_file_table (4) -> file[]
 
@@ -21,16 +21,9 @@ preload:
     rel_offset_name (4) -> null terminated string
     unknown (4)
 
-xap_header_info:
-    id (4)
-    rel_offset_name (4) -> null terminated string
-    bxon_size (4)
-    rel_offset_bxon (4) -> buffer -> bxon
-    rel_offset_str (4) -> byte length prefixed string?
-
 file:
     id (4)
     rel_offset_name (4) -> null terminated string
     size (4)
     rel_offset_data (4) -> buffer
-    unknown (4) note: assert this, usually zero
+    rel_offset_str (4) -> byte length prefixed string?
