@@ -35,7 +35,7 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
         if (!std::filesystem::exists(dest_path)) {
             std::filesystem::create_directories(dest_path);
         }
-        // TODO: unpack PACK files.
+        // TODO: unPACK files.
         dragon::write_file(dest, *data);
         std::cout << std::endl;
     }
