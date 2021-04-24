@@ -10,7 +10,7 @@
 kaine::arc::arc(std::shared_ptr<std::istream> &stream, bool is_full_compressed) {
     data = stream;
     stream->seekg(0, std::ios::end);
-    length = stream->tellg();
+    length = static_cast<uint64_t>(stream->tellg());
 
     if (is_full_compressed) {
         decompressed = decompress_file(0, length, 0);

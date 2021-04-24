@@ -1,0 +1,36 @@
+pack format
+
+note: everything is aligned to 4 bytes.
+note: rel_offset is from the start of that field.
+
+header:
+    magic (4) PACK
+    version (4)
+    total_size (4)
+    buffer_size (4)
+    unknown (4)
+    preload_count (4)
+    rel_offset_preload_table (4) -> preload[]
+    pack_count (4)
+    rel_offset_xap_info_table (4) -> xap_header_info[]
+    file_count (4)
+    rel_offset_file_table (4) -> file[]
+
+preload:
+    id (4)
+    rel_offset_name (4) -> null terminated string
+    unknown (4)
+
+xap_header_info:
+    id (4)
+    rel_offset_name (4) -> null terminated string
+    bxon_size (4)
+    rel_offset_bxon (4) -> buffer -> bxon
+    rel_offset_str (4) -> byte length prefixed string?
+
+file:
+    id (4)
+    rel_offset_name (4) -> null terminated string
+    size (4)
+    rel_offset_data (4) -> buffer
+    unknown (4) note: assert this, usually zero

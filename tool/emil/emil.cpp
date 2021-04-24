@@ -23,7 +23,7 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
     }
 
     for (auto &param : info->files) {
-        auto dest = target_dir / (info->file_names[param.hash] + ".pack");
+        auto dest = target_dir / (info->file_names[param.hash] + ".xap");
         std::cout << info->file_names[param.hash];
         auto archive = archives[param.index];
         auto data = info->read_file(archive, param);

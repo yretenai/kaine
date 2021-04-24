@@ -44,7 +44,7 @@ namespace kaine::bxon_types {
 #pragma pack(push, 4)
         typedef struct ARCHIVE_ARC_PARAM {
             uint32_t rel_offset_name;
-            uint32_t unknown;
+            uint32_t rel_offset_flags;
             bool is_streamed;
         } ArchiveArcParam;
 #pragma pack(pop)
