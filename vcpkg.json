@@ -1,0 +1,9 @@
+{
+  "name": "kaine",
+  "version-string": "0.1.0-dev",
+  "homepage": "https://github.com/yretenai/kaine",
+  "description": "NieR Replicant 1.22 File IO Library",
+  "dependencies": [
+    "zstd"
+  ]
+}

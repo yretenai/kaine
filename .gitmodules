@@ -1,0 +1,3 @@
+[submodule "vendor/standard_dragon"]
+	path = vendor/standard_dragon
+	url = git@github.com:yretenai/standard_dragon.git
