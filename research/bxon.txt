@@ -27,7 +27,7 @@ type tpArchiveFileParam:
     xap:
         id (4) note: probably hash
         rel_offset_name (4) -> null terminated string
-        arc_offset (4) note: shift right by 4.
+        arc_offset (4) note: shift left by 4.
         compressed_size (4) note: zstd
         size (4)
         buffer_size (4) note: add to size to get total size
