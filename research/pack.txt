@@ -4,11 +4,11 @@ note: everything is aligned to 4 bytes.
 note: rel_offset is from the start of that field.
 
 header:
-    magic (4) PACK
+    magic (4) note: PACK
     version (4)
     total_size (4)
-    buffer_size (4)
-    unknown (4)
+    serialized_size (4)
+    resource_size (4) note: this is data that exists inherently in the pack, always after all the files.
     preload_count (4)
     rel_offset_preload_table (4) -> preload[]
     pack_count (4)

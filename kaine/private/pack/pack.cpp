@@ -73,4 +73,8 @@ kaine::pack::pack(dragon::Array<uint8_t> &buffer) {
             }
         }
     }
+
+    if(resource_size > 0) {
+        resource = std::make_shared<dragon::Array<uint8_t>>(ptr + serialized_size, resource_size, true);
+    }
 }

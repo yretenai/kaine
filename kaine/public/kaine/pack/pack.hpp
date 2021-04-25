@@ -51,8 +51,8 @@ namespace kaine {
             uint32_t magic = FOURCC;
             uint32_t version = 0;
             uint32_t total_size = 0;
-            uint32_t buffer_size = 0;
-            uint32_t unknown = 0;
+            uint32_t serialized_size = 0;
+            uint32_t resource_size = 0;
             uint32_t preload_count = 0;
             uint32_t rel_offset_preload = 0;
             uint32_t xap_header_count = 0;
@@ -72,5 +72,7 @@ namespace kaine {
         dragon::Array<XapFile> files;
         std::map<uint32_t, std::string> file_names;
         std::map<uint32_t, std::shared_ptr<dragon::Array<uint8_t>>> file_data;
+
+        std::shared_ptr<dragon::Array<uint8_t>> resource;
     };
 } // namespace kaine
