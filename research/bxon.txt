@@ -9,27 +9,3 @@ header:
     project_id (4)
     rel_offset_typename (4) -> null terminated string
     rel_offset_data (4) -> buffer -> polymorphic based on typename
-
-type tpArchiveFileParam:
-    header:
-        archive_count (4)
-        rel_offset_arc_list (4) -> arc[]
-        xap_count (4)
-        rel_offset_xap_list (4) -> xap[]
-
-    arc:
-        rel_offset_name (4) -> null terminated string
-        rel_offset_flags (4) -> arc_flags; note: you can inline this
-
-    arc_flags:
-        is_streamed (1) note: if 0 decompress the entire arc before slicing
-
-    xap:
-        id (4) note: probably hash
-        rel_offset_name (4) -> null terminated string
-        arc_offset (4) note: shift left by 4.
-        compressed_size (4) note: zstd
-        size (4)
-        buffer_size (4) note: add to size to get total size
-        arc_index (1)
-        is_compressed (1) note: zstd

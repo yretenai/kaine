@@ -9,6 +9,7 @@ header:
     total_size (4)
     serialized_size (4) note: this is the size of the PACK data, seeking to this number will be where resource data starts.
     resource_size (4) note: this is data that exists inherently in the pack, always after all the files.
+        note 2: keep track of the offset, each bxon doesn't specify resource offset. alignment is 0x80.
     preload_count (4)
     rel_offset_preload_table (4) -> preload[]
     pack_count (4)
