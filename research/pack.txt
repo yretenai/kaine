@@ -21,7 +21,7 @@ preload:
     rel_offset_name (4) -> null terminated string
     unknown (4)
 
-file:
+file: note: these are all bxon files, actual resource data is at the end of the file (seek to serialized_size)
     id (4)
     rel_offset_name (4) -> null terminated string
     size (4)
