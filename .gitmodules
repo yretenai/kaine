@@ -1,3 +1,6 @@
 [submodule "vendor/standard_dragon"]
 	path = vendor/standard_dragon
 	url = git@github.com:yretenai/standard_dragon.git
+[submodule ".\\vendor\\ProgramOptions"]
+	path = .\\vendor\\ProgramOptions
+	url = https://github.com/Fytch/ProgramOptions.hxx.git

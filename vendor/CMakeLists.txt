@@ -1,5 +1,4 @@
 project(VENDOR)
 
 add_subdirectory("standard_dragon")
-
-include(GNUInstallDirs)
+add_subdirectory("ProgramOptions")
