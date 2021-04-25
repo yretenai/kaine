@@ -40,8 +40,6 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
                 std::filesystem::create_directories(dest_path);
             }
 
-            std::cout << xap.header_names[xap_header.id] << std::endl;
-
             dragon::write_file(header_dest, *xap.header_data[xap_header.id]);
         }
 
