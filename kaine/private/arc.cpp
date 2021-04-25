@@ -2,7 +2,7 @@
 // Created by Lilith on 2021-04-24.
 //
 
-#include <kaine/arc/arc.hpp>
+#include <kaine/arc.hpp>
 #include <zstd.h>
 
 #include <iostream>

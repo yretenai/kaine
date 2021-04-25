@@ -12,13 +12,13 @@
 
 #include <kaine/kaine_export.h>
 
-#include <kaine/arc/arc.hpp>
-#include <kaine/bxon/bxon.hpp>
-#include <kaine/pack/pack.hpp>
+#include <kaine/arc.hpp>
+#include <kaine/bxon.hpp>
+#include <kaine/pack.hpp>
 
 #include <string>
 
 namespace kaine {
     KAINE_EXPORT std::string get_version_str();
     KAINE_EXPORT int get_version();
-} // namespace kaine
+}// namespace kaine

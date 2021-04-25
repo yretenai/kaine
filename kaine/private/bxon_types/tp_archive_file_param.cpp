@@ -2,7 +2,7 @@
 // Created by Lilith on 2021-04-24.
 //
 
-#include <kaine/bxon/types/tp_archive_file_param.hpp>
+#include <kaine/bxon_types/tp_archive_file_param.hpp>
 
 #include <cassert>
 #include <iostream>
@@ -16,12 +16,12 @@ kaine::bxon_types::tp_archive_file_param::tp_archive_file_param(std::shared_ptr<
     assert(data_end - data_start == EXPECTED_DATA_SIZE);
 #endif
 
-    if (buffer->size() < EXPECTED_DATA_SIZE) { throw dragon::exception::invalid_data("Buffer passed to bxon is not a valid bxon buffer."); }
+    if (buffer->size() < EXPECTED_DATA_SIZE) { throw dragon::exception::invalid_data("Buffer passed to tp_archive_file_param is not a valid tp_archive_file_param buffer."); }
 
     buffer->copy(data_start, 0, EXPECTED_DATA_SIZE);
 
     uint8_t *ptr = buffer->data();
-    auto offset = 0u;
+    uint32_t offset;
 
     if (rel_offset_archive_list > 0) {
         offset = rel_offset_archive_list + ARC_PARAM_OFFSET;

@@ -2,7 +2,7 @@
 // Created by Lilith on 2021-04-25.
 //
 
-#include <kaine/pack/pack.hpp>
+#include <kaine/pack.hpp>
 
 #include <cassert>
 
@@ -30,12 +30,12 @@ kaine::pack::pack(dragon::Array<uint8_t> &buffer) {
     uint32_t offset;
     if (rel_offset_preload > 0) {
         offset = rel_offset_preload + PRELOAD_OFFSET;
-        preload = dragon::Array<XapPreload>(reinterpret_cast<XapPreload *>(ptr + offset), preload_count, true);
+        dependencies = dragon::Array<XapDependency>(reinterpret_cast<XapDependency *>(ptr + offset), preload_count, true);
         for (auto i = 0; i < preload_count; ++i) {
-            auto param = preload[i];
+            auto param = dependencies[i];
             if (param.rel_offset_name > 0) {
-                auto name_offset = offset + sizeof(XapPreload) * i + param.rel_offset_name + PRELOAD_NAME_OFFSET;
-                preload_names[param.id] = std::string(reinterpret_cast<const char *>(ptr + name_offset));
+                auto name_offset = offset + sizeof(XapDependency) * i + param.rel_offset_name + PRELOAD_NAME_OFFSET;
+                dependency_names[param.id] = std::string(reinterpret_cast<const char *>(ptr + name_offset));
             }
         }
     }
@@ -74,7 +74,7 @@ kaine::pack::pack(dragon::Array<uint8_t> &buffer) {
         }
     }
 
-    if(resource_size > 0) {
+    if (resource_size > 0) {
         resource = std::make_shared<dragon::Array<uint8_t>>(ptr + serialized_size, resource_size, true);
     }
 }

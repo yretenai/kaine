@@ -2,7 +2,7 @@
 // Created by Lilith on 2021-04-24.
 //
 
-#include <kaine/bxon/bxon.hpp>
+#include <kaine/bxon.hpp>
 
 #include <cassert>
 #include <standard_dragon/exception/not_implemented.hpp>

@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <kaine/arc/arc.hpp>
-#include <kaine/bxon/types/abstract_bxon.hpp>
+#include <kaine/arc.hpp>
+#include <kaine/bxon_types/abstract_bxon.hpp>
 #include <kaine/kaine_export.h>
 
 #include <standard_dragon/dragon.hpp>
@@ -64,6 +64,6 @@ namespace kaine::bxon_types {
         std::shared_ptr<dragon::Array<uint8_t>> read_file(kaine::arc &archive, uint32_t hash);
         static std::shared_ptr<dragon::Array<uint8_t>> read_file(kaine::arc &archive, ArchiveFileParam &param);
 
-        static std::string get_name() { return "tpArchiveFileParam"; }
+        static constexpr const char *bxon_name = "tpArchiveFileParam";
     };
-} // namespace kaine::bxon_types
+}// namespace kaine::bxon_types

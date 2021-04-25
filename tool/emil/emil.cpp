@@ -2,7 +2,9 @@
 // Created by Lilith on 2021-04-24.
 //
 
-#include <kaine/bxon/types/tp_archive_file_param.hpp>
+// emil extracts xap files from arc files.
+
+#include <kaine/bxon_types/tp_archive_file_param.hpp>
 #include <kaine/kaine.hpp>
 
 void process_dir(const std::filesystem::path &data_dir, const std::filesystem::path &target_dir) {
@@ -12,8 +14,15 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
     std::shared_ptr<std::istream> file = std::make_shared<std::ifstream>(info_path, std::ios::binary | std::ios::in);
     auto info_arc = kaine::arc(file, true);
     auto info_data = info_arc.get_file(0, 0);
+    auto info_name = data_dir.filename().string() + "_info.bxon";
     auto info_bxon = kaine::bxon(*info_data);
     auto info = info_bxon.get_instance<kaine::bxon_types::tp_archive_file_param>();
+
+    std::cout << "saving " << info_name << std::endl;
+    if (!std::filesystem::exists(target_dir)) {
+        std::filesystem::create_directories(target_dir);
+    }
+    dragon::write_file(target_dir / info_name, *info_data);
 
     std::vector<kaine::arc> archives;
     archives.reserve(info->archive_count);
@@ -23,50 +32,21 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
     }
 
     for (auto &param : info->files) {
-        auto dest = target_dir / info->file_names[param.hash];
+        auto dest = target_dir / (info->file_names[param.hash] + ".xap");
         auto archive = archives[param.index];
         auto data = info->read_file(archive, param);
         if (data == nullptr) {
             continue;
         }
 
-        auto xap = kaine::pack(*data);
+        std::cout << "saving " << (info->file_names[param.hash] + ".xap");
 
-        for (const auto &xap_header : xap.headers) {
-            auto header_dest = dest / xap.header_names[xap_header.id];
-            auto dest_path = header_dest.parent_path();
-
-            if (!std::filesystem::exists(dest_path)) {
-                std::filesystem::create_directories(dest_path);
-            }
-
-            dragon::write_file(header_dest, *xap.header_data[xap_header.id]);
+        auto dest_path = dest.parent_path();
+        if (!std::filesystem::exists(dest_path)) {
+            std::filesystem::create_directories(dest_path);
         }
 
-        for (const auto &xap_file : xap.files) {
-            auto file_dest = dest / xap.file_names[xap_file.id];
-            auto dest_path = file_dest.parent_path();
-
-            if (!std::filesystem::exists(dest_path)) {
-                std::filesystem::create_directories(dest_path);
-            }
-
-            std::cout << info->file_names[param.hash] << "/" << xap.file_names[xap_file.id] << std::endl;
-
-            dragon::write_file(file_dest, *xap.file_data[xap_file.id]);
-        }
-
-        if(xap.resource != nullptr) {
-            auto file_dest = dest / xap.header_names[xap.headers[0].id];
-            file_dest.replace_extension(".xap.asset");
-            auto dest_path = file_dest.parent_path();
-
-            if (!std::filesystem::exists(dest_path)) {
-                std::filesystem::create_directories(dest_path);
-            }
-
-            dragon::write_file(file_dest, *xap.resource);
-        }
+        dragon::write_file(dest_path, *data);
     }
 }
 

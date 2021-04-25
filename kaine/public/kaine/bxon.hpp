@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <kaine/bxon/types/abstract_bxon.hpp>
+#include <kaine/bxon_types/abstract_bxon.hpp>
 #include <kaine/kaine.hpp>
 
 #include <standard_dragon/Array.hpp>
@@ -39,10 +39,10 @@ namespace kaine {
         template<class T>
         typename std::enable_if<std::is_base_of<kaine::bxon_types::abstract_bxon, T>::value, std::shared_ptr<T>>::type
         get_instance() {
-            if (T::get_name() != name) {
-                throw dragon::exception::invalid_data("expected type to be " + name + " instead got " + T::get_name());
+            if (name != T::bxon_name) {
+                throw dragon::exception::invalid_data("expected type to be " + name + " instead got " + T::bxon_name);
             }
             return std::make_shared<T>(data);
         }
     };
-} // namespace kaine
+}// namespace kaine

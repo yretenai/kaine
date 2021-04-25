@@ -9,4 +9,4 @@ namespace kaine::bxon_types {
     public:
         virtual ~abstract_bxon() noexcept = default;
     };
-} // namespace kaine::bxon_types
+}// namespace kaine::bxon_types

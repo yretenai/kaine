@@ -24,19 +24,19 @@ namespace kaine {
         static constexpr uint32_t PRELOAD_NAME_OFFSET = 0x4;
         static constexpr uint32_t FILE_NAME_OFFSET = 0x4;
         static constexpr uint32_t FILE_DATA_OFFSET = 0xC;
-        static constexpr uint32_t FILE_STR_OFFSET = 0x10; // unused
+        static constexpr uint32_t FILE_STR_OFFSET = 0x10;// unused
 
     public:
         explicit pack(dragon::Array<uint8_t> &buffer);
         ~pack() = default;
 
 #pragma pack(push, 4)
-        typedef struct XAP_PRELOAD {
+        typedef struct XAP_DEPENDENCY {
             uint32_t id;
             uint32_t rel_offset_name;
             uint32_t unknown;
-        } XapPreload;
-        DRAGON_ASSERT(sizeof(XapPreload) == 0xC, "XapPreload has an invalid size");
+        } XapDependency;
+        DRAGON_ASSERT(sizeof(XAP_DEPENDENCY) == 0xC, "XAP_DEPENDENCY has an invalid size");
 
         typedef struct XAP_FILE {
             uint32_t id;
@@ -45,7 +45,7 @@ namespace kaine {
             uint32_t rel_offset_data;
             uint32_t rel_offset_str;
         } XapFile;
-        DRAGON_ASSERT(sizeof(XapFile) == 0x14, "XapFile has an invalid size");
+        DRAGON_ASSERT(sizeof(XAP_FILE) == 0x14, "XAP_FILE has an invalid size");
 
         struct {
             uint32_t magic = FOURCC;
@@ -62,8 +62,8 @@ namespace kaine {
         };
 #pragma pack(pop)
 
-        dragon::Array<XapPreload> preload;
-        std::map<uint32_t, std::string> preload_names;
+        dragon::Array<XapDependency> dependencies;
+        std::map<uint32_t, std::string> dependency_names;
 
         dragon::Array<XapFile> headers;
         std::map<uint32_t, std::string> header_names;
@@ -75,4 +75,4 @@ namespace kaine {
 
         std::shared_ptr<dragon::Array<uint8_t>> resource;
     };
-} // namespace kaine
+}// namespace kaine

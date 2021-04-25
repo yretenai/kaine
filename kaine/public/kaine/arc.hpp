@@ -23,4 +23,4 @@ namespace kaine {
         std::shared_ptr<dragon::Array<uint8_t>> get_file(uint64_t offset, uint64_t size);
         std::shared_ptr<dragon::Array<uint8_t>> decompress_file(uint64_t offset, uint64_t csize, uint64_t size);
     };
-} // namespace kaine
+}// namespace kaine

@@ -1,7 +1,6 @@
 project(kaine)
 
-target_sources(kaine PRIVATE kaine.cpp)
+target_sources(kaine PRIVATE kaine.cpp arc.cpp bxon.cpp pack.cpp)
 
-add_subdirectory("arc")
-add_subdirectory("bxon")
-add_subdirectory("pack")
+add_subdirectory("bxon_types")
+
