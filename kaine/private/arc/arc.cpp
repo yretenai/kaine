@@ -45,7 +45,7 @@ std::shared_ptr<dragon::Array<uint8_t>> kaine::arc::decompress_file(uint64_t off
     auto read = ZSTD_decompress(buffer->data(), size, cbuffer->data(), csize);
     if (ZSTD_isError(read)) {
 #if !NDEBUG
-        std::cout << " " << ZSTD_getErrorName(read);
+        std::cout << " " << ZSTD_getErrorName(read) << std::endl;
 #endif
         return nullptr;
     }

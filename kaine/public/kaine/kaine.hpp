@@ -12,7 +12,9 @@
 
 #include <kaine/kaine_export.h>
 
+#include <kaine/arc/arc.hpp>
 #include <kaine/bxon/bxon.hpp>
+#include <kaine/pack/pack.hpp>
 
 #include <string>
 

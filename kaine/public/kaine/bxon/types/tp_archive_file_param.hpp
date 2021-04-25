@@ -38,19 +38,15 @@ namespace kaine::bxon_types {
             uint8_t index;
             bool is_compressed;
         } ArchiveFileParam;
-#pragma pack(pop)
-        DRAGON_ASSERT(sizeof(ARCHIVE_FILE_PARAM) == 0x1C, "tpArchiveFileParam has an invalid size");
+        DRAGON_ASSERT(sizeof(ARCHIVE_FILE_PARAM) == 0x1C, "ArchiveFileParam has an invalid size");
 
-#pragma pack(push, 4)
         typedef struct ARCHIVE_ARC_PARAM {
             uint32_t rel_offset_name;
             uint32_t rel_offset_flags;
             bool is_streamed;
         } ArchiveArcParam;
-#pragma pack(pop)
-        DRAGON_ASSERT(sizeof(ARCHIVE_FILE_PARAM) == 0x1C, "tpArchiveFileParam has an invalid size");
+        DRAGON_ASSERT(sizeof(ARCHIVE_ARC_PARAM) == 0xC, "ArchiveArcParam has an invalid size");
 
-#pragma pack(push, 4)
         struct {
             uint32_t archive_count = 0;
             uint32_t rel_offset_archive_list = 0;

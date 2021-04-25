@@ -21,22 +21,32 @@ kaine::bxon_types::tp_archive_file_param::tp_archive_file_param(std::shared_ptr<
     buffer->copy(data_start, 0, EXPECTED_DATA_SIZE);
 
     uint8_t *ptr = buffer->data();
-    auto archive_offset = rel_offset_archive_list + ARC_PARAM_OFFSET;
-    archives = dragon::Array<ArchiveArcParam>(reinterpret_cast<ArchiveArcParam *>(ptr + archive_offset), archive_count,
-                                              true);
-    archive_names.reserve(archive_count);
-    for (auto i = 0; i < archive_count; ++i) {
-        auto param = archives[i];
-        auto name_offset = archive_offset + sizeof(ArchiveArcParam) * i + param.rel_offset_name + ARC_NAME_OFFSET;
-        archive_names.emplace_back(std::string(reinterpret_cast<const char *>(ptr + name_offset)));
+    auto offset = 0u;
+
+    if (rel_offset_archive_list > 0) {
+        offset = rel_offset_archive_list + ARC_PARAM_OFFSET;
+        archives = dragon::Array<ArchiveArcParam>(reinterpret_cast<ArchiveArcParam *>(ptr + offset), archive_count,
+                                                  true);
+        archive_names.reserve(archive_count);
+        for (auto i = 0; i < archive_count; ++i) {
+            auto param = archives[i];
+            if (param.rel_offset_name > 0) {
+                auto name_offset = offset + sizeof(ArchiveArcParam) * i + param.rel_offset_name + ARC_NAME_OFFSET;
+                archive_names.emplace_back(std::string(reinterpret_cast<const char *>(ptr + name_offset)));
+            }
+        }
     }
 
-    auto file_offset = rel_offset_file_list + FILE_PARAM_OFFSET;
-    files = dragon::Array<ArchiveFileParam>(reinterpret_cast<ArchiveFileParam *>(ptr + file_offset), file_count, true);
-    for (auto i = 0; i < file_count; ++i) {
-        auto file = files[i];
-        auto name_offset = file_offset + sizeof(ArchiveFileParam) * i + file.rel_offset_name + FILE_NAME_OFFSET;
-        file_names[file.hash] = std::string(reinterpret_cast<const char *>(ptr + name_offset));
+    if (rel_offset_file_list > 0) {
+        offset = rel_offset_file_list + FILE_PARAM_OFFSET;
+        files = dragon::Array<ArchiveFileParam>(reinterpret_cast<ArchiveFileParam *>(ptr + offset), file_count, true);
+        for (auto i = 0; i < file_count; ++i) {
+            auto file = files[i];
+            if (file.rel_offset_name > 0) {
+                auto name_offset = offset + sizeof(ArchiveFileParam) * i + file.rel_offset_name + FILE_NAME_OFFSET;
+                file_names[file.hash] = std::string(reinterpret_cast<const char *>(ptr + name_offset));
+            }
+        }
     }
 }
 

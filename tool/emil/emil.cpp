@@ -23,21 +23,40 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
     }
 
     for (auto &param : info->files) {
-        auto dest = target_dir / (info->file_names[param.hash] + ".xap");
-        std::cout << info->file_names[param.hash];
+        auto dest = target_dir / info->file_names[param.hash];
         auto archive = archives[param.index];
         auto data = info->read_file(archive, param);
         if (data == nullptr) {
-            std::cout << std::endl;
             continue;
         }
-        auto dest_path = dest.parent_path();
-        if (!std::filesystem::exists(dest_path)) {
-            std::filesystem::create_directories(dest_path);
+
+        auto xap = kaine::pack(*data);
+
+        for (const auto &xap_header : xap.headers) {
+            auto header_dest = dest.parent_path() / xap.header_names[xap_header.id];
+            auto dest_path = header_dest.parent_path();
+
+            if (!std::filesystem::exists(dest_path)) {
+                std::filesystem::create_directories(dest_path);
+            }
+
+            std::cout << xap.header_names[xap_header.id] << std::endl;
+
+            dragon::write_file(header_dest, *xap.header_data[xap_header.id]);
         }
-        // TODO: unPACK files.
-        dragon::write_file(dest, *data);
-        std::cout << std::endl;
+
+        for (const auto &xap_file : xap.files) {
+            auto file_dest = dest / xap.file_names[xap_file.id];
+            auto dest_path = file_dest.parent_path();
+
+            if (!std::filesystem::exists(dest_path)) {
+                std::filesystem::create_directories(dest_path);
+            }
+
+            std::cout << info->file_names[param.hash] << "/" << xap.file_names[xap_file.id] << std::endl;
+
+            dragon::write_file(file_dest, *xap.file_data[xap_file.id]);
+        }
     }
 }
 
