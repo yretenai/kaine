@@ -26,17 +26,18 @@ const KaineConverterInfo Handlers[] = {
 std::shared_ptr<dragon::Array<uint8_t>> convert(kaine::bxon &bxon, std::shared_ptr<dragon::Array<uint8_t>> &resources, uintptr_t *offset, std::filesystem::path &path) {
     auto i = 0;
     while (true) {
-        if (Handlers[i].convert == nullptr) {
+        const auto &handler = Handlers[i++];
+        if (handler.convert == nullptr) {
             break;
         }
 
-        if (Handlers[i].name == bxon.name) {
-            auto result = Handlers[i].convert(bxon, resources, offset);
+        if (handler.name == bxon.name) {
+            auto result = handler.convert(bxon, resources, offset);
             if (result == nullptr) {
                 continue;
             }
-            if (Handlers[i].extension != nullptr) {
-                path = path.replace_extension(Handlers[i].extension);
+            if (handler.extension != nullptr) {
+                path = path.replace_extension(handler.extension);
             }
             return result;
         }

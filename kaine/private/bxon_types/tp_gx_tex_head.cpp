@@ -78,7 +78,7 @@ std::shared_ptr<dragon::Array<uint8_t>> kaine::bxon_types::tp_gx_tex_head::gener
     }
 
     auto buffer = std::make_shared<dragon::Array<uint8_t>>(total_image_size + sizeof(standard_dragon::support::DDS), nullptr);
-    std::copy_n(reinterpret_cast<uint8_t *>(&dds), sizeof(standard_dragon::support::DDS), buffer->data());
+    buffer->paste(reinterpret_cast<uintptr_t>(&dds), 0, sizeof(standard_dragon::support::DDS));
     auto ptr = reinterpret_cast<uintptr_t>(buffer->data() + sizeof(standard_dragon::support::DDS));
     resource->lpcopy(&ptr, offset, total_image_size);
     return buffer;
