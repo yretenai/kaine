@@ -102,7 +102,7 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
 
 int main(int argc, char **argv) {
     std::cout << kaine::get_version_str() << std::endl;
-    std::cout << "Emil version 1.0.2" << std::endl;
+    std::cout << "Emil version 1.0.3" << std::endl;
 
     if (kaine::get_version() != KAINE_VERSION) {
         std::cout << "warn: Kaine version is " << kaine::get_version() << " expected version " << KAINE_VERSION << " (" << KAINE_VERSION_S << ")! behavior is undefined!" << std::endl;
@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
         return 0;
 
     auto install_dir_actual = std::filesystem::path(install_dir.get().string);
-    auto target_dir_actual = install_dir_actual / "build_assets" / "rom" / "pc";
+    auto target_dir_actual = install_dir_actual.parent_path() / "build_assets" / "rom" / "pc";
     if (target_dir.was_set()) {
         target_dir_actual = std::filesystem::path(target_dir.get().string);
     }
