@@ -146,6 +146,9 @@ int main(int argc, char **argv) {
     if (help.was_set())
         return 0;
 
+    if (!install_dir.was_set())
+        return 0;
+
     auto install_dir_actual = std::filesystem::path(install_dir.get().string);
     auto target_dir_actual = install_dir_actual / "build_assets" / "rom" / "pc";
     if (target_dir.was_set()) {
