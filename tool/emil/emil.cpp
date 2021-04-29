@@ -8,7 +8,7 @@
 #include <kaine/bxon_types/tp_archive_file_param.hpp>
 #include <kaine/kaine.hpp>
 
-void process_dir(const std::filesystem::path &data_dir, const std::filesystem::path &target_dir, bool unpack_xap, bool keep_xap) {
+void process_dir(const std::filesystem::path &data_dir, const std::filesystem::path &target_dir, bool unpack_xap, bool keep_xap, bool xap_ext) {
     auto info_path = data_dir / "info.arc";
     if (!std::filesystem::exists(info_path)) return;
 
@@ -41,13 +41,19 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
         }
 
         if (!unpack_xap || keep_xap) {
-            std::cout << "saving " << (info->file_names[param.hash] + ".xap") << std::endl;
+            std::cout << "saving " << info->file_names[param.hash] << std::endl;
             auto dest_path = dest.parent_path();
             if (!std::filesystem::exists(dest_path)) {
                 std::filesystem::create_directories(dest_path);
             }
 
-            dragon::write_file(dest.string() + ".xap", *data);
+            auto dest_xap = dest;
+            if (xap_ext) {
+                dest_xap = dest.string() + ".xap";
+            } else {
+                dest = dest.string() + "_";
+            }
+            dragon::write_file(dest_xap, *data);
         }
 
         if (unpack_xap) {
@@ -96,7 +102,7 @@ void process_dir(const std::filesystem::path &data_dir, const std::filesystem::p
 
 int main(int argc, char **argv) {
     std::cout << kaine::get_version_str() << std::endl;
-    std::cout << "Emil version 1.0.0" << std::endl;
+    std::cout << "Emil version 1.0.2" << std::endl;
 
     if (kaine::get_version() != KAINE_VERSION) {
         std::cout << "warn: Kaine version is " << kaine::get_version() << " expected version " << KAINE_VERSION << " (" << KAINE_VERSION_S << ")! behavior is undefined!" << std::endl;
@@ -106,9 +112,8 @@ int main(int argc, char **argv) {
 
     auto &target_dir = parser["output"]
                                .abbreviation('o')
-                               .description("Output folder")
-                               .type(po::string)
-                               .no_fallback();
+                               .description("Output folder, if unset defaults to install_dir/build_assets/rom/pc")
+                               .type(po::string);
 
     auto &install_dir = parser["install"]
                                 .abbreviation('i')
@@ -124,6 +129,10 @@ int main(int argc, char **argv) {
                              .abbreviation('X')
                              .description("Keep unpacked XAP files");
 
+    auto &xap_extension = parser["ext"]
+                                  .abbreviation('e')
+                                  .description("Use AP Extension");
+
     auto &help = parser["help"]
                          .abbreviation('?')
                          .description("print this help screen")
@@ -138,11 +147,14 @@ int main(int argc, char **argv) {
         return 0;
 
     auto install_dir_actual = std::filesystem::path(install_dir.get().string);
-    auto target_dir_actual = std::filesystem::path(target_dir.get().string);
-    process_dir(install_dir_actual / "data", target_dir_actual, unpack_xap.was_set(), keep_xap.was_set());
+    auto target_dir_actual = install_dir_actual / "build_assets" / "rom" / "pc";
+    if (target_dir.was_set()) {
+        target_dir_actual = std::filesystem::path(target_dir.get().string);
+    }
+    process_dir(install_dir_actual / "data", target_dir_actual, unpack_xap.was_set(), keep_xap.was_set(), xap_extension.was_set());
     for (const auto &dlc_dir : std::filesystem::directory_iterator(install_dir_actual / "dlc")) {
         if (!std::filesystem::is_directory(dlc_dir)) continue;
-        process_dir(dlc_dir, target_dir_actual, unpack_xap.was_set(), keep_xap.was_set());
+        process_dir(dlc_dir, target_dir_actual, unpack_xap.was_set(), keep_xap.was_set(), xap_extension.was_set());
     }
 
     return 0;

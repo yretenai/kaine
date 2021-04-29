@@ -24,10 +24,10 @@ std::shared_ptr<dragon::Array<uint8_t>> kaine::arc::get_file(uint64_t offset, ui
         if (size == 0) {
             size = decompressed->size() - offset;
         }
-        return std::make_shared<dragon::Array<uint8_t>>(decompressed->data() + offset, size, true);
+        return std::make_shared<dragon::Array<uint8_t>>(decompressed->data() + offset, static_cast<size_t>(size), true);
     } else {
         data->seekg(static_cast<int64_t>(offset), std::ios::beg);
-        auto buffer = std::make_shared<dragon::Array<uint8_t>>(size, nullptr);
+        auto buffer = std::make_shared<dragon::Array<uint8_t>>(static_cast<size_t>(size), nullptr);
         data->read(reinterpret_cast<char *>(buffer->data()), static_cast<std::streamsize>(size));
         return buffer;
     }
@@ -41,7 +41,7 @@ std::shared_ptr<dragon::Array<uint8_t>> kaine::arc::decompress_file(uint64_t off
             return nullptr;
         }
     }
-    auto buffer = std::make_shared<dragon::Array<uint8_t>>(size, nullptr);
+    auto buffer = std::make_shared<dragon::Array<uint8_t>>(static_cast<size_t>(size), nullptr);
     auto read = ZSTD_decompress(buffer->data(), size, cbuffer->data(), csize);
     if (ZSTD_isError(read)) {
 #if !NDEBUG

@@ -31,7 +31,9 @@ endif ()
 
 include(CheckIncludeFileCXX)
 
-CHECK_INCLUDE_FILE_CXX("__pstl_execution" HAS_PARALLEL_ALGORITHMS)
+if (CLANG OR WIN32_CLANG)
+    CHECK_INCLUDE_FILE_CXX("__pstl_execution" HAS_PARALLEL_ALGORITHMS)
+endif ()
 
 if (HAS_PARALLEL_ALGORITHMS)
     add_compile_definitions("_LIBCPP_HAS_PARALLEL_ALGORITHMS")
