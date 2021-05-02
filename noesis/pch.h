@@ -10,4 +10,8 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
+#include "support/pluginshare.h"
+
+#include <filesystem>
+
 #endif //PCH_H

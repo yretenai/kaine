@@ -86,6 +86,11 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="support\NoeSRShared.h" />
+    <ClInclude Include="support\pluginbasetypes.h" />
+    <ClInclude Include="support\pluginclasses.h" />
+    <ClInclude Include="support\pluginshare.h" />
+    <ClInclude Include="XAPFile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -93,6 +98,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="support\noesisplugin.cpp" />
+    <ClCompile Include="support\pluginsupport.cpp" />
+    <ClCompile Include="XAPFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
