@@ -9,15 +9,15 @@
 #  ifndef KAINE_EXPORT
 #    ifdef kaine_EXPORTS
         /* We are building this library */
-#      define KAINE_EXPORT 
+#      define KAINE_EXPORT __attribute__((visibility("default")))
 #    else
         /* We are using this library */
-#      define KAINE_EXPORT 
+#      define KAINE_EXPORT __attribute__((visibility("default")))
 #    endif
 #  endif
 
 #  ifndef KAINE_NO_EXPORT
-#    define KAINE_NO_EXPORT 
+#    define KAINE_NO_EXPORT __attribute__((visibility("hidden")))
 #  endif
 #endif
 

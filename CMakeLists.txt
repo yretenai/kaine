@@ -41,6 +41,8 @@ endif ()
 
 include(GenerateExportHeader)
 
+option(BUILD_SHARED_LIBS "Build Kaine as a shared library" ON)
+
 add_subdirectory("vendor")
 
 find_package(zstd CONFIG REQUIRED)

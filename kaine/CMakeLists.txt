@@ -1,12 +1,8 @@
 project(kaine)
 
-if (MSVC OR WIN32_CLANG)
-    add_library(kaine SHARED)
-else ()
-    add_library(kaine STATIC)
-endif ()
-
+add_library(kaine)
 set_target_properties(kaine PROPERTIES POSITION_INDEPENDENT_CODE 1)
+set_target_properties(kaine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 target_compile_definitions(kaine PRIVATE DRAGON_LIBRARY_NAME="kaine")
 
 if (MSVC)
