@@ -5,11 +5,11 @@
 #pragma once
 
 #ifdef _WIN32
-#ifdef _WIN32_CLANG
-#include <kaine/generated/kaine_export_clang.a.h>
-#else
 #include <kaine/generated/kaine_export_win.a.h>
-#endif
 #else
 #include <kaine/generated/kaine_export_linux.a.h>
+#endif
+#ifdef KAINE_STATIC
+#undef KAINE_EXPORT
+#define KAINE_EXPORT
 #endif

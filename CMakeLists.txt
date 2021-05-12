@@ -43,6 +43,10 @@ include(GenerateExportHeader)
 
 option(BUILD_SHARED_LIBS "Build Kaine as a shared library" ON)
 
+if (MSVC AND NOESIS_BUILD)
+    add_subdirectory(noesis)
+endif ()
+
 add_subdirectory("vendor")
 
 find_package(zstd CONFIG REQUIRED)
